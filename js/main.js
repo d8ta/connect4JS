@@ -10,8 +10,8 @@ connectFour.config = function (config, Model) {
         this.coinContext;
         this.width;
         this.height;
-        this.playfieldWidth;
-        this.playfieldHeight;
+        this.playfieldW;
+        this.playfieldH;
 
         // arrys for playercolors
         this.colors = [];
@@ -20,8 +20,8 @@ connectFour.config = function (config, Model) {
         this.colors[3] = "greenyellow";
 
         // shows coin above the playfield
-        this.coinVisible = false;
-        this.coinPosition = 0;
+        this.coinVisibility = false;
+        this.coinPos = 0;
         this.isAnimating = false;
 
         // highlighting the winnerstones
@@ -106,8 +106,8 @@ connectFour.config = function (config, Model) {
 
     // draws coin to new position and clears old on
     Game.prototype.drawCoinAnimation = function drawCoinAnimation(x1, y1, y2, playerid) {
-        this.clearCircle(this.coinContext, x1, y1, (this.playfieldWidth / 2));
-        this.drawCoin(this.coinContext, x1, y2, (this.playfieldWidth / 2) - 1, playerid);
+        this.clearCircle(this.coinContext, x1, y1, (this.playfieldW / 2));
+        this.drawCoin(this.coinContext, x1, y2, (this.playfieldW / 2) - 1, playerid);
     };
 
     // draws coin to given position
@@ -123,7 +123,7 @@ connectFour.config = function (config, Model) {
         for (var winnerField in this.model.wonFields) {
             var x = this.model.wonFields[winnerField].x;
             var y = this.model.wonFields[winnerField].y;
-            this.drawCoin(this.coinContext, ((x * this.playfieldWidth) + this.playfieldWidth / 2), ((y * this.playfieldHeight) + this.playfieldHeight / 2 + 100), (this.playfieldWidth / 2), 3);
+            this.drawCoin(this.coinContext, ((x * this.playfieldW) + this.playfieldW / 2), ((y * this.playfieldH) + this.playfieldH / 2 + 100), (this.playfieldW / 2), 3);
         }
     };
 
@@ -133,13 +133,13 @@ connectFour.config = function (config, Model) {
         this.context.fillRect(0, 0, this.width, this.height);
         for (var col = 0; col < 7; col++) {
             for (var row = 0; row < 6; row++) {
-                this.clearCircle(this.context, ((col * this.playfieldWidth) + this.playfieldWidth / 2), ((row * this.playfieldHeight) + this.playfieldHeight / 2), ((this.playfieldWidth / 2) - 1));
+                this.clearCircle(this.context, ((col * this.playfieldW) + this.playfieldW / 2), ((row * this.playfieldH) + this.playfieldH / 2), ((this.playfieldW / 2) - 1));
             }
         }
     };
 
     // setting up the gamecomponents
-    Game.prototype.setup = function setup(gameReference) {
+    Game.prototype.gameSetup = function gameSetup(gameReference) {
         console.log("Setup");
         var that = this;
         var canvas = document.getElementById("board");
@@ -151,8 +151,8 @@ connectFour.config = function (config, Model) {
         this.coinContext = coinCanvas.getContext('2d');
         this.width = canvas.width;
         this.height = canvas.height;
-        this.playfieldWidth = this.width / 7;
-        this.playfieldHeight = this.height / 6;
+        this.playfieldW = this.width / 7;
+        this.playfieldH = this.height / 6;
 
         // if playerId = 1, you start
         this.model.myTurn = this.model.playerId == 1;
@@ -164,14 +164,14 @@ connectFour.config = function (config, Model) {
         $('#board').on('mousemove', function (e) {
             if (that.model.myTurn && that.model.playing) {
                 var x = Math.floor((e.pageX - $(canvas).offset().left) / 100);
-                if (x != that.coinPosition && that.coinVisible && that.model.board[x][0] == 0) {
+                if (x != that.coinPos && that.coinVisibility && that.model.board[x][0] == 0) {
                     console.log("Draw my coin");
-                    that.clearCircle(that.coinContext, ((that.coinPosition * that.playfieldWidth) + that.playfieldWidth / 2), (that.playfieldHeight / 2), (that.playfieldWidth / 2));
+                    that.clearCircle(that.coinContext, ((that.coinPos * that.playfieldW) + that.playfieldW / 2), (that.playfieldH / 2), (that.playfieldW / 2));
                     that.coinContext.beginPath();
                     that.coinContext.fillStyle = that.colors[that.model.playerId];
-                    that.coinContext.arc(((that.playfieldWidth * x) + that.playfieldWidth / 2), that.playfieldHeight / 2, (that.playfieldWidth / 2) - 1, 0, 2 * Math.PI, false);
+                    that.coinContext.arc(((that.playfieldW * x) + that.playfieldW / 2), that.playfieldH / 2, (that.playfieldW / 2) - 1, 0, 2 * Math.PI, false);
                     that.coinContext.fill();
-                    that.coinPosition = x;
+                    that.coinPos = x;
                 }
             }
         });
@@ -194,9 +194,9 @@ connectFour.config = function (config, Model) {
                     that.model.myTurn = false;
                     that.isAnimating = true;
                     //animates the coin fall
-                    that.coinAnimation((that.playfieldWidth * x) + that.playfieldWidth / 2, that.playfieldHeight / 2, (that.playfieldWidth * i) + that.playfieldWidth / 2 + 100, that.model.playerId, 1);
-                    that.coinVisible = false;
-                    that.coinPosition = 0;
+                    that.coinAnimation((that.playfieldW * x) + that.playfieldW / 2, that.playfieldH / 2, (that.playfieldW * i) + that.playfieldW / 2 + 100, that.model.playerId, 1);
+                    that.coinVisibility = false;
+                    that.coinPos = 0;
 
                     // call to evaluate if one of the players have won
                     that.model.winner(x, i);

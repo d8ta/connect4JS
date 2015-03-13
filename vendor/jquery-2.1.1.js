@@ -4136,7 +4136,7 @@ jQuery.event = {
                 handlers.delegateCount = 0;
 
                 // Only use addEventListener if the special events handler returns false
-                if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
+                if ( !special.gameSetup || special.gameSetup.call( elem, data, namespaces, eventHandle ) === false ) {
                     if ( elem.addEventListener ) {
                         elem.addEventListener( type, eventHandle, false );
                     }
@@ -4755,7 +4755,7 @@ if ( !support.focusinBubbles ) {
             };
 
         jQuery.event.special[ fix ] = {
-            setup: function() {
+            gameSetup: function() {
                 var doc = this.ownerDocument || this,
                     attaches = data_priv.access( doc, fix );
 

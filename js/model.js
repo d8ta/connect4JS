@@ -55,8 +55,8 @@ connectFour.Model = (function() {
 				$('h2.title').html("My turn");
 
 				// shows coin above the field if it is my turn
-				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
-				this.config.coinVisible = true;
+				this.config.drawCoin(this.config.coinContext, this.config.playfieldW/2, this.config.playfieldH/2, (this.config.playfieldW/2) - 1, this.playerId);
+				this.config.coinVisibility = true;
 				this.myTurn = true;
 				var i = 5;
 				while(this.board[x][i] != 0 && i >= 0){
@@ -67,7 +67,7 @@ connectFour.Model = (function() {
 				if(this.board[x][0] == 0){
 					this.board[x][i] = player;
 					this.config.isAnimating = true;
-					this.config.coinAnimation((this.config.playfieldWidth*x) + this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth*i) + this.config.playfieldWidth/2 + 100, player, 1);
+					this.config.coinAnimation((this.config.playfieldW*x) + this.config.playfieldW/2, this.config.playfieldH/2, (this.config.playfieldW*i) + this.config.playfieldW/2 + 100, player, 1);
 
 					// called after every turn to check if game has still a winner
 					this.winner(x, i);
@@ -76,8 +76,8 @@ connectFour.Model = (function() {
 		}
 		else{
 			if(this.myTurn && this.playing){
-				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
-				this.config.coinVisible = true;
+				this.config.drawCoin(this.config.coinContext, this.config.playfieldW/2, this.config.playfieldH/2, (this.config.playfieldW/2) - 1, this.playerId);
+				this.config.coinVisibility = true;
 			}
 		}
 		this.start = true;
@@ -171,7 +171,7 @@ connectFour.Model = (function() {
 
 						$('h2.title').html("It's not your turn");
 
-						that.config.setup(gameRef);
+						that.config.gameSetup(gameRef);
 					}
 				});
 			}
@@ -217,7 +217,7 @@ connectFour.Model = (function() {
 
 						$('h2.title').html("Your turn");
 
-						that.config.setup(gameRef);
+						that.config.gameSetup(gameRef);
 					}
 				});
 			}
