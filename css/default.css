@@ -1,0 +1,41 @@
+.container {
+    display: block;
+    width:700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title{
+    text-align: center;
+    color: purple;
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 25px;
+}
+#field{
+    text-align: center;
+}
+
+canvas{
+    width: 700px;
+}
+#board {
+    top: 150px;
+}
+#coins {
+
+}
+
+.list button{
+    float: right;
+}
+
+button {
+	margin: 5px 5px 5px 0;
+}
+.error {
+    color:red;
+}
+canvas {
+    position: absolute;
+    top: 50px;
+}
