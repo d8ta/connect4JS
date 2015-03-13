@@ -1,3 +1,7 @@
+body {
+    background-color: #e5eecc;
+}
+
 .container {
     display: block;
     width:700px;
@@ -7,10 +11,43 @@
 
 .title{
     text-align: center;
-    color: purple;
+    color: darkolivegreen;
     font-family: Verdana, Helvetica, sans-serif;
     font-size: 25px;
 }
+
+#flagCreate {
+    text-align: center;
+    background-color: darkolivegreen;
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: darkseagreen;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bluecolor {
+    color: cornflowerblue;
+}
+
+.redcolor {
+    color: palevioletred;
+}
+
+#waitingtext {
+    color: darkolivegreen;
+    margin-top: 50px;
+    text-align: center;
+}
+
+#flagCreate h3 {
+    padding: 0px;
+    color: whitesmoke;
+}
+
 #field{
     text-align: center;
 }
