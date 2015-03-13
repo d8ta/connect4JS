@@ -3,7 +3,6 @@ window.connectFour = window.connectFour || {};
 connectFour.game = (function(config, Model) {
     "use strict";
 
-$(document).ready(function() {
     var Model = function Model(game){
         //fills the board with a two dimensional array of 0
         //get the instance of the game
@@ -440,6 +439,5 @@ $(document).ready(function() {
 
     //create an instance of the game
     var theGame = new Game();
-});
 
 }(connectFour.CONFIG, connectFour.Model));
