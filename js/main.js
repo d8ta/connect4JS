@@ -1,6 +1,6 @@
 window.connectFour = window.connectFour || {};
 
-connectFour.game = (function(config, Model) {
+connectFour.config = (function(config, Model) {
     "use strict";
 
 
@@ -23,8 +23,8 @@ connectFour.game = (function(config, Model) {
             if(this.playerId != player){
                 $('h2.title').html("My turn");
                 //draws my next coin on top of the playing field
-                this.game.drawCoin(this.game.coinContext, this.game.bucketwidth/2, this.game.bucketheight/2, (this.game.bucketwidth/2) - 1, this.playerId);
-                this.game.coinVisible = true;
+                this.config.drawCoin(this.config.coinContext, this.config.bucketwidth/2, this.config.bucketheight/2, (this.config.bucketwidth/2) - 1, this.playerId);
+                this.config.coinVisible = true;
                 this.myTurn = true;
                 var i = 5;
                 while(this.board[x][i] != 0 && i >= 0){
@@ -33,8 +33,8 @@ connectFour.game = (function(config, Model) {
                 //calls the animation function
                 if(this.board[x][0] == 0){
                     this.board[x][i] = player;
-                    this.game.isAnimating = true;
-                    this.game.animateCoin((this.game.bucketwidth*x) + this.game.bucketwidth/2, this.game.bucketheight/2, (this.game.bucketwidth*i) + this.game.bucketwidth/2 + 100, player, 1);
+                    this.config.isAnimating = true;
+                    this.config.animateCoin((this.config.bucketwidth*x) + this.config.bucketwidth/2, this.config.bucketheight/2, (this.config.bucketwidth*i) + this.config.bucketwidth/2 + 100, player, 1);
                     //after every turn the findWinner function gets called
                     this.findWinner(x, i);
                 }
@@ -43,8 +43,8 @@ connectFour.game = (function(config, Model) {
         else{
             //draws my next coin on top of the playing field
             if(this.myTurn && this.playing){
-                this.game.drawCoin(this.game.coinContext, this.game.bucketwidth/2, this.game.bucketheight/2, (this.game.bucketwidth/2) - 1, this.playerId);
-                this.game.coinVisible = true;
+                this.config.drawCoin(this.config.coinContext, this.config.bucketwidth/2, this.config.bucketheight/2, (this.config.bucketwidth/2) - 1, this.playerId);
+                this.config.coinVisible = true;
             }
         }
         this.start = true;
@@ -77,7 +77,7 @@ connectFour.game = (function(config, Model) {
                         depth += this.findWinnerDirection(x, y, -i, -j);
                         if(depth >= 4){
                             this.wonFields = this.winnerFields;
-                            this.game.highlight = true;
+                            this.config.highlight = true;
                             this.playing = false;
                             $('h2.title').html("Winner is: " + this.playersArr[this.board[x][y]]);
                         }
@@ -138,7 +138,7 @@ connectFour.game = (function(config, Model) {
 
                         $('h2.title').html("It's not your turn");
 
-                        that.game.setup(gameRef);
+                        that.config.setup(gameRef);
                     }
                 });
             }
@@ -184,7 +184,7 @@ connectFour.game = (function(config, Model) {
 
                         $('h2.title').html("Your turn");
 
-                        that.game.setup(gameRef);
+                        that.config.setup(gameRef);
                     }
                 });
             }
