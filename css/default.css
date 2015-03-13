@@ -12,7 +12,7 @@ body {
 .title{
     text-align: center;
     color: darkolivegreen;
-    font-family: Verdana, Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 25px;
 }
 
@@ -55,12 +55,11 @@ body {
 canvas{
     width: 700px;
 }
+
 #board {
     top: 150px;
 }
-#coins {
 
-}
 
 .list button{
     float: right;
@@ -72,6 +71,7 @@ button {
 .error {
     color:red;
 }
+
 canvas {
     position: absolute;
     top: 50px;

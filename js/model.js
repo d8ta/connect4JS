@@ -3,13 +3,12 @@ window.connectFour = window.connectFour || {};
 connectFour.Model = (function() {
 	"use strict";
 
-	//Model constructor function
+	// Model constructor
 	var Model = function Model(config){
-		//fills the board with a two dimensional array of 0
-		//get the instance of the game
 		this.config = config;
 		this.board = [];
-		//this.init();
+
+		// two dim. arry for the board
 		for(var i = 0; i < 7; i++){
 			this.board[i] = [];
 			for(var j = 0; j < 6; j++){
@@ -17,8 +16,8 @@ connectFour.Model = (function() {
 			}
 		}
 
-		//firebase game demo
-		this.FIREBASE_URL = 'https://shining-inferno-3227.firebaseio.com'; // in config
+		// connects to firebase
+		this.FIREBASE_URL = 'https://shining-inferno-3227.firebaseio.com';
 		this.connectionRef = new Firebase(this.FIREBASE_URL + '/.info/connected');
 		this.gameList = new Firebase(this.FIREBASE_URL + '/games');
 
@@ -28,18 +27,18 @@ connectFour.Model = (function() {
 		this.enemy;
 		this.myTurn = false;
 		this.start = false;
-		//if false the game is over (draw)
+
+		// indicates if game is running, is fals if game ends
 		this.playing = true;
 
 		//array with the winner fields
 		this.winnerFields = [];
 		this.wonFields = [];
 		this.playersArr = [];
-
 	};
 
 
-	//validates the oponnents turn and calls the animation of the coin
+	// second player turn
 	Model.prototype.opponentTurn = function opponentTurn(moveSnapshot){
 		var moves = moveSnapshot.val();
 
@@ -54,28 +53,30 @@ connectFour.Model = (function() {
 
 			if(this.playerId != player){
 				$('h2.title').html("My turn");
-				//draws my next coin on top of the playing field
-				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playvieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
+
+				// shows coin above the field if it is my turn
+				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
 				this.config.coinVisible = true;
 				this.myTurn = true;
 				var i = 5;
 				while(this.board[x][i] != 0 && i >= 0){
 					i--;
 				}
-				//calls the animation function
+
+				// animation for coins
 				if(this.board[x][0] == 0){
 					this.board[x][i] = player;
 					this.config.isAnimating = true;
-					this.config.animateCoin((this.config.playfieldWidth*x) + this.config.playfieldWidth/2, this.config.playvieldHeight/2, (this.config.playfieldWidth*i) + this.config.playfieldWidth/2 + 100, player, 1);
-					//after every turn the findWinner function gets called
-					this.findWinner(x, i);
+					this.config.coinAnimation((this.config.playfieldWidth*x) + this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth*i) + this.config.playfieldWidth/2 + 100, player, 1);
+
+					// called after every turn to check if game has still a winner
+					this.winner(x, i);
 				}
 			}
 		}
 		else{
-			//draws my next coin on top of the playing field
 			if(this.myTurn && this.playing){
-				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playvieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
+				this.config.drawCoin(this.config.coinContext, this.config.playfieldWidth/2, this.config.playfieldHeight/2, (this.config.playfieldWidth/2) - 1, this.playerId);
 				this.config.coinVisible = true;
 			}
 		}
@@ -83,7 +84,7 @@ connectFour.Model = (function() {
 	};
 
 
-	//checks if the board is already full and the game is over (draw)
+	// if game is full the game is draw
 	Model.prototype.draw = function draw(){
 		var full = true;
 		for(var i = 0; i < 7; i++){
@@ -94,11 +95,11 @@ connectFour.Model = (function() {
 		return full;
 	}
 
-	//checks if there are 4 of the same color
-	Model.prototype.findWinner = function findWinner(x, y){
+	// checks for a winner
+	Model.prototype.winner = function winner(x, y){
 		//checks if the game ends in a draw
 		var exitDraw = this.draw();
-		//calls the function findWinnerDirection for every direction in which there is a coin
+
 		if(this.board[x][y] != 0){
 			for(var i=-1; i<2; i++){
 				for(var j=-1; j<2; j++){
@@ -106,17 +107,17 @@ connectFour.Model = (function() {
 						var depth = 1;
 						this.winnerFields = [];
 						this.winnerFields.push({'x': x, 'y': y});
-						depth += this.findWinnerDirection(x, y, i, j);
-						depth += this.findWinnerDirection(x, y, -i, -j);
+						depth += this.winnerDirection(x, y, i, j);
+						depth += this.winnerDirection(x, y, -i, -j);
 						if(depth >= 4){
 							this.wonFields = this.winnerFields;
 							this.config.highlight = true;
 							this.playing = false;
-							$('h2.title').html("Winner is: " + this.playersArr[this.board[x][y]]);
+							$('h2.title').html(this.playersArr[this.board[x][y]] + " wins!");
 						}
 						if(exitDraw){
 							this.playing = false;
-							$('h2.title').html("Draw");
+							$('h2.title').html("Game is a Draw");
 						}
 					}
 				}
@@ -125,7 +126,7 @@ connectFour.Model = (function() {
 	}
 
 	//this function checks if there are coins with the same color in a given direction
-	Model.prototype.findWinnerDirection = function findWinnerDirection(x, y, gox, goy){
+	Model.prototype.winnerDirection = function winnerDirection(x, y, gox, goy){
 		// get the depth in one direction
 		var depth = 0;
 		while((x+gox)<7 && (x+gox)>=0 && (y+goy)<6 && (y+goy)>=0 && this.board[x][y] == this.board[x+gox][y+goy]){
@@ -137,7 +138,7 @@ connectFour.Model = (function() {
 		return depth;
 	}
 
-	//To join the game with Firebase
+	// Join the game
 	Model.prototype.joinGame = function joinGame(e){
 		var t = e.delegateTarget;
 		var gameId = $(t).parent().attr('id');
@@ -165,7 +166,6 @@ connectFour.Model = (function() {
 
 						$('.container').html('<canvas id="coins" width="700" height="700" style="z-index: 0;"></canvas><canvas id="board" width="700" height="600" style="z-index: 1;"></canvas>');
 						gameRef.child('move').on('child_added',function(moveSnapshot){
-							//console.log(moveSnapshot.val());
 						});
 						that.playerId = 2;
 
@@ -180,7 +180,7 @@ connectFour.Model = (function() {
 
 
 
-	//start the Game with Firebase
+	// start the Game with Firebase
 	Model.prototype.startGame = function startGame(){
 		var that = this;
 
@@ -225,100 +225,6 @@ connectFour.Model = (function() {
 				$('.container').append('<br><span class="error">You are not connected</span>');
 		});
 	};
-
-
-	//static consts
-    //
-	//Model.EVENTS = {
-	//	INIT_COMPLETE: 'initComplete', // after connected to firebase
-	//	INSERT_TOKEN: 'insertToken', // drop a piece
-	//	GAME_OVER: 'gameOver', // a player wins, pass winning player as event parameter...
-	//	GAME_ABORTED: 'gameAborted',
-	//	STATE_CHANGE: 'stateChange',
-	//	GAME_LIST_CHANGE: 'gameListChange',
-	//	ERROR: 'error'
-	//	//...
-	//};
-    //
-	//Model.STATES = {
-	//	WAITING: 'waiting',
-	//	PLAYING: 'playing',
-	//	OVER: 'over'
-	//};
-    //
-	////Model prototype
-    //
-	//Model.prototype = {
-    //
-	//	//public properties
-    //
-	//	state: Model.STATES.WAITING,
-	//	currentPlayer: '',
-	//	myPlayerIndex: '',
-	//	columns: null,
-	//	gameList: null,
-	//	numColumns: 7,
-    //
-	//	//...
-    //
-	//	//private properties
-    //
-	//	_firbase: null,
-	//	_gameId: '',
-    //
-	//	//...
-    //
-	//	//public functions
-    //
-	//	init: function () {
-	//		this._initColumns();
-	//		//connect to firebase and wait for it
-	//		//...
-	//		//$(this).triggerHandler(Model.EVENTS.INIT_COMPLETE);
-	//	},
-    //
-	//	insertTokenAt: function (columnIndex) {
-	//		return this.columns[columnIndex].length < this.config.numRows;
-	//	},
-    //
-	//	isInsertTokenPossibleAt: function (columnIndex) {
-	//		return true;
-	//	},
-    //
-	//	toString: function () {
-	//		var s = '';
-	//		for (var row = 0; row < this.config.numRows; row++) {
-	//			var line = '';
-	//			for (var col = 0; col < this.config.numColumns; col++) {
-	//				var elem = this.columns[col][row];
-	//				line += (elem === undefined ? '-' : elem) + ' ';
-	//			}
-	//			s = line + '\n' + s;
-	//		}
-	//		return '\n' + s;
-	//	},
-    //
-	//	startGame: function () {
-	//		//create new game and wait for user
-	//	},
-    //
-	//	joinGame: function (gameId) {
-	//		//try to join an existing game
-	//	},
-    //
-	//	//...
-    //
-	//	//private functions
-    //
-	//	_initColumns: function () {
-	//		this.columns = [];
-	//		for(var i = 0; i < this.config.numColumns; i++)
-	//			this.columns[i] = [];
-	//	}
-    //
-	//	//...
-    //
-	//};
 
 	return Model;
 })();
