@@ -6,9 +6,9 @@ connectFour.Model = (function() {
 	// Model constructor
 	var Model = function Model(config){
 		this.config = config;
-		this.board = [];
 
 		// two dim. arry for the board
+		this.board = [];
 		for(var i = 0; i < 7; i++){
 			this.board[i] = [];
 			for(var j = 0; j < 6; j++){
@@ -42,7 +42,7 @@ connectFour.Model = (function() {
 	Model.prototype.opponentTurn = function opponentTurn(moveSnapshot){
 		var moves = moveSnapshot.val();
 
-		//get the player id and the x value of the opponents turn
+		// get playerid and x value of opponents turn
 		if(this.start && this.playing){
 			var x = 0;
 			var player = 0;
@@ -55,7 +55,7 @@ connectFour.Model = (function() {
 				$('h2.title').html("My turn");
 
 				// shows coin above the field if it is my turn
-				this.config.drawCoin(this.config.coinContext, this.config.playfieldW/2, this.config.playfieldH/2, (this.config.playfieldW/2) - 1, this.playerId);
+				this.config.drawCoin(this.config.coinContext, this.config.playfieldW / 2, this.config.playfieldH / 2, (this.config.playfieldW / 2) - 1, this.playerId);
 				this.config.coinVisibility = true;
 				this.myTurn = true;
 				var i = 5;
@@ -67,7 +67,7 @@ connectFour.Model = (function() {
 				if(this.board[x][0] == 0){
 					this.board[x][i] = player;
 					this.config.isAnimating = true;
-					this.config.coinAnimation((this.config.playfieldW*x) + this.config.playfieldW/2, this.config.playfieldH/2, (this.config.playfieldW*i) + this.config.playfieldW/2 + 100, player, 1);
+					this.config.coinAnimation((this.config.playfieldW * x) + this.config.playfieldW / 2, this.config.playfieldH / 2, (this.config.playfieldW*i) + this.config.playfieldW/2 + 100, player, 1);
 
 					// called after every turn to check if game has still a winner
 					this.winner(x, i);
@@ -125,11 +125,11 @@ connectFour.Model = (function() {
 		}
 	}
 
-	//this function checks if there are coins with the same color in a given direction
+	// checking same colored coins in any direction
 	Model.prototype.winnerDirection = function winnerDirection(x, y, gox, goy){
 		// get the depth in one direction
 		var depth = 0;
-		while((x+gox)<7 && (x+gox)>=0 && (y+goy)<6 && (y+goy)>=0 && this.board[x][y] == this.board[x+gox][y+goy]){
+		while((x + gox)<7 && (x + gox)>=0 && (y + goy)<6 && (y + goy) >= 0 && this.board[x][y] == this.board[ x + gox][y + goy]){
 			x += gox;
 			y += goy;
 			this.winnerFields.push({'x': x, 'y': y});
@@ -164,12 +164,12 @@ connectFour.Model = (function() {
 
 						that.gameList.off('child_added');
 
-						$('.container').html('<canvas id="coins" width="700" height="700" style="z-index: 0;"></canvas><canvas id="board" width="700" height="600" style="z-index: 1;"></canvas>');
+						$('.container').html('<canvas id="coins" width="700" height="700" style="z-index: 0;"></canvas><canvas id="board" width="700" height="600" style="z-index: 0;"></canvas>');
 						gameRef.child('move').on('child_added',function(moveSnapshot){
 						});
 						that.playerId = 2;
 
-						$('h2.title').html("It's not your turn");
+						$('h2.title').html("Opponents turn!");
 
 						that.config.gameSetup(gameRef);
 					}
@@ -215,7 +215,7 @@ connectFour.Model = (function() {
 						gameRef.child('move').on('child_added',function(moveSnapshot){
 						});
 
-						$('h2.title').html("Your turn");
+						$('h2.title').html("Your turn!");
 
 						that.config.gameSetup(gameRef);
 					}

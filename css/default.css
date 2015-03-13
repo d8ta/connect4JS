@@ -1,5 +1,7 @@
 body {
     background-color: #e5eecc;
+    font-family: 'Roboto', sans-serif;
+
 }
 
 .container {
@@ -12,19 +14,34 @@ body {
 .title{
     text-align: center;
     color: darkolivegreen;
-    font-family: 'Roboto', sans-serif;
     font-size: 25px;
+}
+
+#you {
+    text-align: center;
+    background-color: #e5eecc;
+    width: 500px;
+    height: 55px;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkolivegreen;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    color: darkolivegreen;
+
 }
 
 #flagCreate {
     text-align: center;
-    background-color: darkolivegreen;
-    width: 400px;
-    height: 50px;
+    background-color: #e5eecc;
+    width: 500px;
+    height: 55px;
     border-radius: 10px;
     border-style: solid;
-    border-width: 2px;
-    border-color: darkseagreen;
+    border-width: 1px;
+    border-color: darkolivegreen;
     margin-left: auto;
     margin-right: auto;
 }
@@ -44,30 +61,52 @@ body {
 }
 
 #flagCreate h3 {
-    padding: 0px;
-    color: whitesmoke;
+    color: darkolivegreen;
 }
 
 #field{
     text-align: center;
 }
 
-canvas{
-    width: 700px;
+.list {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: darkolivegreen;
+}
+
+#starGame {
+    float: left;
+    margin-left: 100px;
 }
 
 #board {
     top: 150px;
 }
 
-
-.list button{
-    float: right;
-}
-
 button {
 	margin: 5px 5px 5px 0;
+    color: darkolivegreen;
+    background-color: #e5eecc;
+    border-radius: 7.5px;
+    border-color: darkolivegreen;
+    border-style: solid;
+    padding: 2px 5px 2px 5px;
+    border-width: 1px;
 }
+
+#inputGameId {
+    margin: 5px 5px 5px 0;
+    color: darkolivegreen;
+    background-color: #e5eecc;
+    border-radius: 7.5px;
+    border-color: darkolivegreen;
+    border-style: solid;
+    padding: 2px 5px 2px 5px;
+    border-width: 1px;
+
+}
+
 .error {
     color:red;
 }

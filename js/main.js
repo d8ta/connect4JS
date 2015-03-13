@@ -13,11 +13,11 @@ connectFour.config = function (config, Model) {
         this.playfieldW;
         this.playfieldH;
 
-        // arrys for playercolors
+        // array for player and fieldcolor
         this.colors = [];
-        this.colors[1] = "cornflowerblue";
-        this.colors[2] = "palevioletred";
-        this.colors[3] = "greenyellow";
+        this.colors[1] = "cornflowerblue";  // player1
+        this.colors[2] = "palevioletred";   // player2
+        this.colors[3] = "darkolivegreen";  // playfield
 
         // shows coin above the playfield
         this.coinVisibility = false;
@@ -30,7 +30,7 @@ connectFour.config = function (config, Model) {
         // setting another scope
         var that = this;
 
-        //saves the Name from the #saveName Field
+        // save playername from the saveName Field
         $('#saveName').click(function () {
             that.model.name = $('#inputGameId').val();
             $('.container').load('lobby.html', function () {
@@ -42,7 +42,7 @@ connectFour.config = function (config, Model) {
                         that.model.playersArr[1] = that.model.enemy;
                         that.model.playersArr[2] = that.model.name;
                         if ($('#' + key).length == 0) {
-                            $('.list').append('<div id="' + key + '">' + game.player[1].name + ' <button class="joinGame">Join Game</button></div>');
+                            $('.list').append('<div id="' + key + '">' + game.player[1].name + ' <button class="joinGame">Join the game</button></div>');
                             $('#' + key + ' .joinGame').click(that.model.joinGame.bind(that.model));
                         }
                     }
@@ -58,7 +58,7 @@ connectFour.config = function (config, Model) {
             //}
         });
     };
-        // clears circles
+    // clears circles
     Game.prototype.clearCircle = function clearCircle(context, x, y, radius) {
         context.save();
         context.globalCompositeOperation = 'destination-out';
@@ -129,7 +129,7 @@ connectFour.config = function (config, Model) {
 
     // drawing the gameboard
     Game.prototype.gameBoard = function gameBoard() {
-        this.context.fillStyle = "#0000CD";
+        this.context.fillStyle = "darkseagreen";
         this.context.fillRect(0, 0, this.width, this.height);
         for (var col = 0; col < 7; col++) {
             for (var row = 0; row < 6; row++) {
@@ -160,7 +160,7 @@ connectFour.config = function (config, Model) {
         // trigger if some new moves have been added to firebase
         gameReference.child("move").limit(1).on("value", that.model.opponentTurn.bind(that.model));
 
-        //if it's my turn the position of the coin on top gets updated
+        // update coinpos on top if it is myturn
         $('#board').on('mousemove', function (e) {
             if (that.model.myTurn && that.model.playing) {
                 var x = Math.floor((e.pageX - $(canvas).offset().left) / 100);
@@ -189,7 +189,7 @@ connectFour.config = function (config, Model) {
                     i--;
                 }
                 if (that.model.board[x][0] == 0) {
-                    $('h2.title').html("It's not your turn");
+                    $('h2.title').html("Opponents turn");
                     that.model.board[x][i] = that.model.playerId;
                     that.model.myTurn = false;
                     that.isAnimating = true;
