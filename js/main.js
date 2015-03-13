@@ -3,40 +3,7 @@ window.connectFour = window.connectFour || {};
 connectFour.game = (function(config, Model) {
     "use strict";
 
-    var Model = function Model(game){
-        //fills the board with a two dimensional array of 0
-        //get the instance of the game
-        this.game = game;
-        this.board = [];
-        for(var i = 0; i < 7; i++){
-            this.board[i] = [];
-            for(var j = 0; j < 6; j++){
-                this.board[i][j] = 0;
-            }
-        }
 
-
-
-        //firebase game demo
-        this.FIREBASE_URL = 'https://shining-inferno-3227.firebaseio.com'; // in config
-        this.connectionRef = new Firebase(this.FIREBASE_URL + '/.info/connected');
-        this.gameList = new Firebase(this.FIREBASE_URL + '/games');
-
-
-        this.name;
-        this.playerId;
-        this.enemy;
-        this.myTurn = false;
-        this.start = false;
-        //if false the game is over (draw)
-        this.playing = true;
-
-        //array with the winner fields
-        this.winnerFields = [];
-        this.wonFields = [];
-        this.playersArr = [];
-
-    };
 
 
 
