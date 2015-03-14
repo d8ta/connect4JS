@@ -101,9 +101,9 @@ connectFour.Model = (function() {
 		var exitDraw = this.draw();
 
 		if(this.board[x][y] != 0){
-			for(var i=-1; i<2; i++){
-				for(var j=-1; j<2; j++){
-					if((i!=0 || j!=0) && (x+i)<7 && (x+i)>=0 && (y+j)<6 && (y+j)>=0){
+			for(var i = -1; i < 2; i++){
+				for(var j = -1; j < 2; j++){
+					if((i != 0 || j != 0) && (x + i)<7 && (x + i) >= 0 && (y + j) < 6 && (y + j) >= 0){
 						var depth = 1;
 						this.winnerFields = [];
 						this.winnerFields.push({'x': x, 'y': y});
@@ -129,7 +129,7 @@ connectFour.Model = (function() {
 	Model.prototype.winnerDirection = function winnerDirection(x, y, gox, goy){
 		// get the depth in one direction
 		var depth = 0;
-		while((x + gox)<7 && (x + gox)>=0 && (y + goy)<6 && (y + goy) >= 0 && this.board[x][y] == this.board[ x + gox][y + goy]){
+		while((x + gox) < 7 && (x + gox) >= 0 && (y + goy) < 6 && (y + goy) >= 0 && this.board[x][y] == this.board[ x + gox][y + goy]){
 			x += gox;
 			y += goy;
 			this.winnerFields.push({'x': x, 'y': y});
